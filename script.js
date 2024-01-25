@@ -42,7 +42,9 @@ function initializeGrid() {
         gridContainer.appendChild(sqrDiv);
         sqrDiv.addEventListener('mouseenter', () => {
             if (randomColorMode) { 
-                sqrDiv.style.backgroundColor = 'red';
+                let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                console.log(randomColor);
+                sqrDiv.style.backgroundColor = randomColor;
             }
             else {
                 sqrDiv.style.backgroundColor = 'black';
