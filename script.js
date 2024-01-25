@@ -1,5 +1,6 @@
 let gridSize = 16;
 let randomColorMode = false;
+let progressiveDarkeningMode = false;
 
 const gridContainer = document.querySelector('#grid-container');
 
@@ -22,6 +23,12 @@ addEventListener('keydown', (e) => {
     e.key === 't' ? changeTrailColor() : void (0);
 });
 
+const progressiveDarkeningButton = document.querySelector('#progressive-darkening');
+progressiveDarkeningButton.addEventListener('click', toggleProgressiveDarkening);
+addEventListener('keydown', (e) => {
+    e.key === 'p' ? toggleProgressiveDarkening() : void (0);
+});
+
 
 initializeGrid();
 
@@ -30,6 +37,9 @@ function changeTrailColor() {
     randomColorMode = !randomColorMode;
 }
 
+function toggleProgressiveDarkening() {
+    progressiveDarkeningMode = !progressiveDarkeningMode;
+}
 
 
 
@@ -48,6 +58,7 @@ function initializeGrid() {
             }
             else {
                 sqrDiv.style.backgroundColor = 'black';
+                // TEM QUE TER ALGO AQUI PARA O PROGRESSIVE DARKENING
             }
 
         })
