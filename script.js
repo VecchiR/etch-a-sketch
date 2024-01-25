@@ -1,4 +1,5 @@
 let gridSize = 16;
+let randomColorMode = false;
 
 const gridContainer = document.querySelector('#grid-container');
 
@@ -15,9 +16,22 @@ addEventListener('keydown', (e) => {
     e.key === 'c' ? changeGridSize() : void (0);
 });
 
+const trailColorButton = document.querySelector('#color');
+trailColorButton.addEventListener('click', changeTrailColor);
+addEventListener('keydown', (e) => {
+    e.key === 't' ? changeTrailColor() : void (0);
+});
 
 
 initializeGrid();
+
+
+function changeTrailColor() {
+    randomColorMode = !randomColorMode;
+}
+
+
+
 
 function initializeGrid() {
 
@@ -27,7 +41,13 @@ function initializeGrid() {
 
         gridContainer.appendChild(sqrDiv);
         sqrDiv.addEventListener('mouseenter', () => {
-            sqrDiv.style.backgroundColor = 'black';
+            if (randomColorMode) { 
+                sqrDiv.style.backgroundColor = 'red';
+            }
+            else {
+                sqrDiv.style.backgroundColor = 'black';
+            }
+
         })
     }
     const classSquareDiv = document.getElementsByClassName('square-div');
