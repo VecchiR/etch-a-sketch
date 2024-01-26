@@ -1,6 +1,9 @@
 let gridSize = 16;
 let randomColorMode = false;
 let progressiveDarkeningMode = false;
+// let darkeningCounter = document.createAttribute('value');
+// darkeningCounter.value = 0;
+const testcolor =  9474192;
 
 const gridContainer = document.querySelector('#grid-container');
 
@@ -48,17 +51,22 @@ function initializeGrid() {
     for (i = 0; i < gridSize * gridSize; i++) {
         const sqrDiv = document.createElement('div');
         sqrDiv.className = 'square-div';
+        // sqrDiv.setAttributeNode(darkeningCounter);
 
         gridContainer.appendChild(sqrDiv);
         sqrDiv.addEventListener('mouseenter', () => {
             if (randomColorMode) { 
                 let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-                console.log(randomColor);
                 sqrDiv.style.backgroundColor = randomColor;
             }
             else {
+                if (progressiveDarkeningMode === true) {
+                let newcolordarkened = testcolor - 65793;
+                sqrDiv.style.backgroundColor = `#${newcolordarkened.toString(16)}`;
+                }
+                else {
                 sqrDiv.style.backgroundColor = 'black';
-                // TEM QUE TER ALGO AQUI PARA O PROGRESSIVE DARKENING
+                }
             }
 
         })
@@ -105,3 +113,13 @@ function resetGrid() {
         square.style.backgroundColor = '';
     })
 }
+
+
+
+/*
+#909090 = 9474192
+
+
+cada vez que diminui 010101 -> 65793
+
+*/ 

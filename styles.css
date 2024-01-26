@@ -9,8 +9,6 @@
 
 .square-div {
     box-sizing: border-box;
-    /* height: 60px;
-    flex: 0 0 60px; */
 }
 
 button {
@@ -21,12 +19,3 @@ button {
 #buttons {
     display: flex;
 }
-
-
-
-
-/* FOR DEBUGGING ------------------------------------*/
-
-/* * {
-    border: 1px solid red;
-}  */
