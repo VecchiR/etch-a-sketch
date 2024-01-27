@@ -3,7 +3,7 @@ let randomColorMode = false;
 let progressiveDarkeningMode = false;
 // let darkeningCounter = document.createAttribute('value');
 // darkeningCounter.value = 0;
-const testcolor =  9474192;
+const baseDarkeningEffectColor = 9474192;
 
 const gridContainer = document.querySelector('#grid-container');
 
@@ -51,24 +51,40 @@ function initializeGrid() {
     for (i = 0; i < gridSize * gridSize; i++) {
         const sqrDiv = document.createElement('div');
         sqrDiv.className = 'square-div';
-        // sqrDiv.setAttributeNode(darkeningCounter);
 
         gridContainer.appendChild(sqrDiv);
         sqrDiv.addEventListener('mouseenter', () => {
-            if (randomColorMode) { 
-                let randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+            if (randomColorMode) {
+                let randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
                 sqrDiv.style.backgroundColor = randomColor;
             }
             else {
-                if (progressiveDarkeningMode === true) {
-                let newcolordarkened = testcolor - 65793;
-                sqrDiv.style.backgroundColor = `#${newcolordarkened.toString(16)}`;
+                if (progressiveDarkeningMode === true && !sqrDiv.style.backgroundColor) {
+                    sqrDiv.style.backgroundColor = `#${baseDarkeningEffectColor.toString(16)}`;
+                    console.log("caso1", sqrDiv.style.backgroundColor);
                 }
-                else {
-                sqrDiv.style.backgroundColor = 'black';
-                }
-            }
 
+                else if (progressiveDarkeningMode === true && sqrDiv.style.backgroundColor) {
+                    // se cor JA EXIST -> diminui 65793
+                    console.log(sqrDiv.style.backgroundColor, sqrDiv.style.backgroundColor.toString(10));
+                    let oldColor = sqrDiv.style.backgroundColor.toString(10);
+                    let newColor = oldColor - 65793;
+                    sqrDiv.style.backgroundColor = `#${newColor.toString(16)}`;
+                    console.log("caso2", sqrDiv.style.backgroundColor);
+                }
+
+                else {
+                    sqrDiv.style.backgroundColor = 'black';
+                }
+
+                // OLD TESTS:
+                // let newcolordarkened = testcolor - 65793;
+                // sqrDiv.style.backgroundColor = `#${(sqrDiv.style.backgroundColor-65793).toString(16)}`;
+                // sqrDiv.style.backgroundColor = `#${9474192.toString(16)}`;
+                // let sqrcolor = 9474192;
+                // let sqcolorString = sqrcolor.toString() 
+                // console.log(sqrDiv.style.backgroundColor);
+            }
         })
     }
     const classSquareDiv = document.getElementsByClassName('square-div');
@@ -76,6 +92,10 @@ function initializeGrid() {
         classSquareDiv[i].style.cssText = `height: ${960 / gridSize}px; flex: 0 0 ${960 / gridSize}px`;
     }
 }
+
+
+
+
 
 function changeGridSize() {
     let exitPrompt = 0; // 0=stay in prompt loop | 1=cancel | 2=proceed with function
