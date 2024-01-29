@@ -1,9 +1,7 @@
 let gridSize = 16;
 let randomColorMode = false;
 let progressiveDarkeningMode = false;
-// let darkeningCounter = document.createAttribute('value');
-// darkeningCounter.value = 0;
-const baseDarkeningEffectColor = 9474192;
+
 
 const gridContainer = document.querySelector('#grid-container');
 
@@ -21,9 +19,9 @@ addEventListener('keydown', (e) => {
 });
 
 const trailColorButton = document.querySelector('#color');
-trailColorButton.addEventListener('click', changeTrailColor);
+trailColorButton.addEventListener('click', toggleTrailColor);
 addEventListener('keydown', (e) => {
-    e.key === 't' ? changeTrailColor() : void (0);
+    e.key === 't' ? toggleTrailColor() : void (0);
 });
 
 const progressiveDarkeningButton = document.querySelector('#progressive-darkening');
@@ -36,7 +34,12 @@ addEventListener('keydown', (e) => {
 initializeGrid();
 
 
-function changeTrailColor() {
+
+
+
+
+
+function toggleTrailColor() {
     randomColorMode = !randomColorMode;
 }
 
@@ -51,39 +54,27 @@ function initializeGrid() {
     for (i = 0; i < gridSize * gridSize; i++) {
         const sqrDiv = document.createElement('div');
         sqrDiv.className = 'square-div';
-
         gridContainer.appendChild(sqrDiv);
+        
         sqrDiv.addEventListener('mouseenter', () => {
             if (randomColorMode) {
                 let randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
                 sqrDiv.style.backgroundColor = randomColor;
             }
+            
             else {
                 if (progressiveDarkeningMode === true && !sqrDiv.style.backgroundColor) {
-                    sqrDiv.style.backgroundColor = `#${baseDarkeningEffectColor.toString(16)}`;
-                    console.log("caso1", sqrDiv.style.backgroundColor);
+                    sqrDiv.style.backgroundColor = "#909090";
                 }
 
                 else if (progressiveDarkeningMode === true && sqrDiv.style.backgroundColor) {
-                    // se cor JA EXIST -> diminui 65793
-                    console.log(sqrDiv.style.backgroundColor, sqrDiv.style.backgroundColor.toString(10));
-                    let oldColor = sqrDiv.style.backgroundColor.toString(10);
-                    let newColor = oldColor - 65793;
-                    sqrDiv.style.backgroundColor = `#${newColor.toString(16)}`;
-                    console.log("caso2", sqrDiv.style.backgroundColor);
+                    let newColor = updateColor(sqrDiv.style.backgroundColor);
+                    sqrDiv.style.backgroundColor = newColor;
                 }
 
                 else {
                     sqrDiv.style.backgroundColor = 'black';
                 }
-
-                // OLD TESTS:
-                // let newcolordarkened = testcolor - 65793;
-                // sqrDiv.style.backgroundColor = `#${(sqrDiv.style.backgroundColor-65793).toString(16)}`;
-                // sqrDiv.style.backgroundColor = `#${9474192.toString(16)}`;
-                // let sqrcolor = 9474192;
-                // let sqcolorString = sqrcolor.toString() 
-                // console.log(sqrDiv.style.backgroundColor);
             }
         })
     }
@@ -94,7 +85,15 @@ function initializeGrid() {
 }
 
 
+function updateColor(rgbColor) {
+    rgbArr = rgbColor.substring(4, rgbColor.length - 1).replace(/ /g, '').split(',');
 
+    for (i = 0; i < 3; i++) {
+        rgbArr[i] = parseInt(rgbArr[i]) - 20;
+    }
+
+    return (`rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`);
+}
 
 
 function changeGridSize() {
@@ -133,13 +132,3 @@ function resetGrid() {
         square.style.backgroundColor = '';
     })
 }
-
-
-
-/*
-#909090 = 9474192
-
-
-cada vez que diminui 010101 -> 65793
-
-*/ 
